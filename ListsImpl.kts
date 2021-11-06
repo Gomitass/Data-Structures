@@ -1,3 +1,5 @@
+import kotlin.system.measureTimeMillis
+import kotlin.math.*
 interface List{
     fun pushFront(key:String)
     fun topFront():String?
@@ -121,30 +123,51 @@ class linkedList(var head:Node? = null,var tail:Node? = null):List{
 
 //Homework
 
-var list = linkedList()
-
-val str = readLine()!!
-
-//divide the string in characters and save them in to the array
-for (i in 0 until str.length) {
-    var a: String = str[i].toString()
+//split the String in to chars and save them in to a list
+fun strToList(str:String):linkedList{
+    var list = linkedList()
+    for (i in 0 until str.length) {
+        var a: String = str[i].toString()
         list.append(a)
     }
+    return list
+}
 
-//find the duplicates
-var a = list.head?.next
-var finalList = linkedList()
+//divide the string in characters and save them in to the array
+fun deleteDuplicates(list:linkedList):linkedList{
+    //find and delete the duplicates
+    var a = list.head?.next
+    var finalList = linkedList()
 
-if (!list.isEmpty()){
+    if (!list.isEmpty()){
     finalList.append(list.head!!.key)
-    while (a != list.tail){
+    while (true){
         if (!finalList.find(a!!.key)){
             finalList.append(a!!.key)
         }
-        a = a!!.next
+        if (a?.next == null){
+            break
+        }else{
+            a = a!!.next
+        }
     }
+    }
+    return finalList
 }
+//test times
 
-println(finalList)
+fun randomStr(size: Int): String = List(size) {
+    (('a'..'z') + ('A'..'Z')).random()
+}.joinToString("")
 
+
+for (i in 0..4){
+    val a =1000*10.toDouble().pow(i).toInt()
+    var str = randomStr(a)
+    val timeInMillis = measureTimeMillis {
+        var list = strToList(str)
+        list=deleteDuplicates(list)
+    }
+    println("(The operation took $timeInMillis ms for $a size array)")
+}
 
