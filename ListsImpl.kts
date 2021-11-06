@@ -133,9 +133,8 @@ fun strToList(str:String):linkedList{
     return list
 }
 
-//divide the string in characters and save them in to the array
+//find and delete the duplicates
 fun deleteDuplicates(list:linkedList):linkedList{
-    //find and delete the duplicates
     var a = list.head?.next
     var finalList = linkedList()
 
@@ -154,13 +153,16 @@ fun deleteDuplicates(list:linkedList):linkedList{
     }
     return finalList
 }
-//test times
 
+
+//test time
+
+//here we generate the random str with n size of characters
 fun randomStr(size: Int): String = List(size) {
     (('a'..'z') + ('A'..'Z')).random()
 }.joinToString("")
 
-
+// here we make tests of time with diferent sizes of lists
 for (i in 0..4){
     val a =1000*10.toDouble().pow(i).toInt()
     var str = randomStr(a)
