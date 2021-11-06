@@ -5,10 +5,15 @@ interface List{
     fun append(key:String)
     fun topBack():String?
     fun popBack():String?
-    fun find(key:String)
+    fun find(key:String):Boolean
+    fun isEmpty():Boolean
 }
 
-class Node(val key : String,var next:Node? = null){}
+class Node(val key : String,var next:Node? = null){
+    override fun toString(): String {
+        return key
+    }
+}
 
 
 class linkedList(var head:Node? = null,var tail:Node? = null):List{
@@ -73,8 +78,21 @@ class linkedList(var head:Node? = null,var tail:Node? = null):List{
             return a?.key
         }
     }
-    override fun find(key:String){
-
+    override fun find(key:String):Boolean{
+        var a = head
+        while (true){
+            if (a?.key == key){
+                return true
+            }
+            else{
+                if(a?.next == null){
+                    return false
+                }
+                else{
+                    a = a.next
+                }
+            }
+        }
     }
 
     override fun toString(): String {
@@ -83,22 +101,50 @@ class linkedList(var head:Node? = null,var tail:Node? = null):List{
             b = "[" + head?.key
             var a = head
             while (a?.next != null){
-                a = a.next
-                b += "," + a?.key
+                a = a?.next
+                b =b + "," + a?.key
             }
             b += "]"
         }
         return b
     }
+
+    override fun isEmpty():Boolean{
+        if(tail == null && tail == head){
+            return true
+        }
+        else{
+            return false
+        }
+    }
 }
-//TESTS
+
+//Homework
+
 var list = linkedList()
-list.pushFront("A")
-println(list)
-println(list.tail)
-list.append("B")
-println(list)
-println(list.popBack())
-println(list)
-println(list.popBack())
-println(list)
+
+val str = readLine()!!
+
+//divide the string in characters and save them in to the array
+for (i in 0 until str.length) {
+    var a: String = str[i].toString()
+        list.append(a)
+    }
+
+//find the duplicates
+var a = list.head?.next
+var finalList = linkedList()
+
+if (!list.isEmpty()){
+    finalList.append(list.head!!.key)
+    while (a != list.tail){
+        if (!finalList.find(a!!.key)){
+            finalList.append(a!!.key)
+        }
+        a = a!!.next
+    }
+}
+
+println(finalList)
+
+
